@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Super Dating</string>
+    <string name="detail_introduction_title">Bemutatkozó szöveg</string>
+    <string name="details_button_title">Részletek</string>
+    <string name="list_fragment_title">Közelben</string>
+    <string name="age_format">%d éves</string>
+    <string name="no_internet_error">Nincs internet kapcsolat</string>
+    <string name="error_unknown">Ismeretlen hiba</string>
+</resources>

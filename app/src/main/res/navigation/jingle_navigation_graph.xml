@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/fragment_list">
+
+    <fragment
+        android:id="@+id/fragment_list"
+        android:name="com.example.demodatingapp.fragment.ListFragment"
+        android:label="@string/list_fragment_title"
+        tools:layout="@layout/fragment_list">
+
+        <action
+            android:id="@+id/navigation_to_detail"
+            app:destination="@+id/fragment_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_detail"
+        android:name="com.example.demodatingapp.fragment.DetailFragment"
+        tools:layout="@layout/fragment_detail">
+
+        <argument
+            android:name="personId"
+            app:argType="integer"/>
+
+        <action
+            android:id="@+id/navigation_to_gallery"
+            app:destination="@+id/fragment_gallery" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_gallery"
+        android:name="com.example.demodatingapp.fragment.GalleryFragment"
+        tools:layout="@layout/fragment_gallery">
+
+        <argument
+            android:name="selectedIndex"
+            app:argType="integer" />
+
+        <argument
+            android:name="images"
+            app:argType="string[]" />
+
+    </fragment>
+
+</navigation>
