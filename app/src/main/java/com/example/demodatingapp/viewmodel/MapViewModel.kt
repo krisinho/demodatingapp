@@ -10,4 +10,6 @@ class MapViewModel(private val repository: PersonRepository): ViewModel() {
     fun currentLocation(context: Context): LocationLiveData {
         return LocationLiveData(context)
     }
+
+    val persons = repository.getPersons()
 }

@@ -17,10 +17,14 @@ import com.example.demodatingapp.databinding.FragmentMapBinding
 import com.example.demodatingapp.util.LocationLiveData
 import com.example.demodatingapp.viewmodel.MapViewModel
 import com.example.demodatingapp.viewmodel.factory.PersonViewModelFactory
+import com.example.demodatingapp.vo.Person
+import com.example.demodatingapp.vo.Place
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 class MapFragment : Fragment() {
 
@@ -52,6 +56,7 @@ class MapFragment : Fragment() {
                 true
             }
             checkForPermissions()
+            observePersons()
         }
         return binding.root
     }
@@ -156,4 +161,21 @@ class MapFragment : Fragment() {
                 it == PackageManager.PERMISSION_GRANTED
             }
     }
+
+    private fun observePersons() {
+        viewModel.persons.observe(this, Observer { resource ->
+            resource.data?.let { persons ->
+                persons.mapNotNull { person ->
+                    MarkerOptions().position(person.lastLocation.latLng)
+                }.forEach { markerOptions ->
+                    googleMap!!.addMarker(markerOptions)
+                }
+            }
+        })
+    }
 }
+
+private val Place.latLng: LatLng
+    get() {
+        return LatLng(latitude, longitude)
+    }
