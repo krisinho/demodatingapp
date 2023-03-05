@@ -1,13 +1,12 @@
 package com.example.demodatingapp.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.example.demodatingapp.R
 import com.example.demodatingapp.adapter.PersonAdapter
 import com.example.demodatingapp.databinding.FragmentListBinding
 import com.example.demodatingapp.util.RetryCallback
@@ -33,6 +32,8 @@ class ListFragment: Fragment() {
             if (it != null) adapter.submitList(it.data)
         })
 
+        setHasOptionsMenu(true)
+
         return mBinding.root
     }
 
@@ -43,5 +44,10 @@ class ListFragment: Fragment() {
                 viewModel.retry()
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.list_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

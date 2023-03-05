@@ -6,4 +6,5 @@
     <string name="age_format">%d éves</string>
     <string name="no_internet_error">Nincs internet kapcsolat</string>
     <string name="error_unknown">Ismeretlen hiba</string>
+    <string name="map_menu_name">Térkép</string>
 </resources>
