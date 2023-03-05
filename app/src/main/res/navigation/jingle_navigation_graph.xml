@@ -37,7 +37,13 @@
 
     <fragment android:id="@+id/fragment_map"
         android:name="com.example.demodatingapp.fragment.MapFragment"
-        android:label="@string/map_menu_name"/>
+        android:label="@string/map_menu_name"
+        android:layout="@layout/fragment_map">
+
+        <action
+            android:id="@+id/detail_from_map"
+            app:destination="@id/fragment_detail" />
+    </fragment>
 
     <fragment
         android:id="@+id/fragment_gallery"

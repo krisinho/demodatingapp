@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import com.example.demodatingapp.R
 import com.example.demodatingapp.databinding.FragmentMapBinding
+import com.example.demodatingapp.network.adapter.PersonInfoWindowAdapter
 import com.example.demodatingapp.util.LocationLiveData
 import com.example.demodatingapp.viewmodel.MapViewModel
 import com.example.demodatingapp.viewmodel.factory.PersonViewModelFactory
@@ -40,6 +41,8 @@ class MapFragment : Fragment() {
 
     private var locationObserver: LocationLiveData? = null
 
+    private lateinit var infoWindowAdapter: PersonInfoWindowAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,6 +58,15 @@ class MapFragment : Fragment() {
                 observeDeviceLocation()
                 true
             }
+
+            googleMap!!.setInfoWindowAdapter(infoWindowAdapter)
+
+            googleMap!!.setOnInfoWindowClickListener { marker ->
+                infoWindowAdapter.markers[marker.id]?.apply {
+                    findNavController().navigate(MapFragmentDirections.detailFromMap(id))
+                }
+            }
+
             checkForPermissions()
             observePersons()
         }
@@ -67,6 +79,7 @@ class MapFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, PersonViewModelFactory.INSTANCE)
             .get(MapViewModel::class.java)
 
+        infoWindowAdapter = PersonInfoWindowAdapter(requireContext())
     }
 
     override fun onResume() {
@@ -164,12 +177,22 @@ class MapFragment : Fragment() {
 
     private fun observePersons() {
         viewModel.persons.observe(this, Observer { resource ->
+            googleMap!!.clear()
+            val markers = HashMap<String, Person>()
             resource.data?.let { persons ->
-                persons.mapNotNull { person ->
-                    MarkerOptions().position(person.lastLocation.latLng)
-                }.forEach { markerOptions ->
-                    googleMap!!.addMarker(markerOptions)
+                persons.map { person ->
+                    person
+                }.forEach { person ->
+                    val latLng = person.lastLocation.latLng
+                    val options = MarkerOptions()
+                        .position(latLng)
+                        .title(person.name)
+                        .icon(BitmapDescriptorFactory.defaultMarker(353f))
+                    googleMap!!.addMarker(options).also {
+                        markers[it.id] = person
+                    }
                 }
+                infoWindowAdapter.markers = markers
             }
         })
     }
