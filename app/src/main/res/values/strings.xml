@@ -1,4 +1,5 @@
 <resources>
+    <string translatable="false" name="google_maps_key">AIzaSyA1ePqBfxZdCu0ztk5CT8Jxi07nvanVCNo</string>
     <string name="app_name">Super Dating</string>
     <string name="detail_introduction_title">Bemutatkozó szöveg</string>
     <string name="details_button_title">Részletek</string>
